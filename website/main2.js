@@ -14,7 +14,7 @@ $(document).ready(function() {
 
     $.get(link_path).done(function(links) {
         $.get(topic_path).done(function(topics) {
-
+            
         })
     })
 })

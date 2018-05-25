@@ -65,7 +65,7 @@ Introduction
  - The study of how households and firms make choices, how they interact in markets, and how the government attempts to influence their choices.
 
 **Entrepreneur**
- - Someone who operates a business and decides what goods and service to produce and how to produce them. An entrepreneur starting a new business puts his or her own funds atrisk. If an entrepreneur is wrong about what consumers want or about the best way to produce goods and services, the entrepreneur’s funds can be lost.
+ - Someone who operates a business and decides what goods and service to produce and how to produce them. An entrepreneur starting a new business puts his or her own funds atrisk. If an entrepreneur is wrong about what consumers want or about the best way to produce goods and services, the entrepreneur's funds can be lost.
 
 **Innovation**
  - The practical application of an invention.
@@ -83,22 +83,22 @@ Introduction
  - A firm's revenue is the total amount received for selling a good or service. It is calculated by multiplying the price per unit by the number of units sold.
 
 **Profit**
- - A firm’s profit is the difference between its revenue and its costs. Economists distinguish between accounting profit and economic profit. In calculating accounting profit, we exclude the cost of some economic resources that the firm does not pay for explicitly. In calculating economic profit, we include the opportunity cost of all resources used by the firm. When we refer to profit in this book, we meaneconomic profit. It is important not to confuse profit with revenue.
+ - A firm's profit is the difference between its revenue and its costs. Economists distinguish between accounting profit and economic profit. In calculating accounting profit, we exclude the cost of some economic resources that the firm does not pay for explicitly. In calculating economic profit, we include the opportunity cost of all resources used by the firm. When we refer to profit in this book, we meaneconomic profit. It is important not to confuse profit with revenue.
 
 **Household**
- - A household consists of all persons occupying a home. Households are suppliers of factors of production—particularly labor—used by firms to make goods and services. Households also demand goods and services produced by firms and governments.
+ - A household consists of all persons occupying a home. Households are suppliers of factors of production-particularly labor-used by firms to make goods and services. Households also demand goods and services produced by firms and governments.
 
 **Factors of production or economic resources**
- - Firms use factors of production to produce goods and services. The main factors of production are labor, capital, natural resources—including land—and entrepreneurial ability. Households earn income by supplying to firms the factors of production.
+ - Firms use factors of production to produce goods and services. The main factors of production are labor, capital, natural resources-including land-and entrepreneurial ability. Households earn income by supplying to firms the factors of production.
   
 **Capital**
- - The word capital can refer to financial capital or to physical capital. Financial capital includes stocks and bonds issued by firms, bank accounts, and holdings of money. In economics, though, capital refers to physical capital, which includes manufactured goods that are used to produce other goods and services. Examples of physical capital are computers, factory buildings, machine tools, ware-houses, and trucks. The total amount of physical capital available in a country is referred to as the country’s capital stock.
+ - The word capital can refer to financial capital or to physical capital. Financial capital includes stocks and bonds issued by firms, bank accounts, and holdings of money. In economics, though, capital refers to physical capital, which includes manufactured goods that are used to produce other goods and services. Examples of physical capital are computers, factory buildings, machine tools, ware-houses, and trucks. The total amount of physical capital available in a country is referred to as the country's capital stock.
  
 **Human capital**
  - Human capital refers to the accumulated training and skills that workers possess. For example, college-educated workers generally have more skills and are more productive than workers who have only high school degrees.
 
 **total revenue**
- - The total amount of funds received by a seller of a good or service, calculated by multiplying price per unit by the number of unit s sold.
+ - The total amount of funds received by a seller of a good or service, calculated by multiplying price per unit by the number of units sold.
 
 **production possibilities frontier**
  - A curve showing the maximum attainable combinations of two products that may be produced with availalbe resources and current technology.

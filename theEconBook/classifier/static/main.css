@@ -1,0 +1,12 @@
+.fullheight {
+    height: 100vh;
+}
+
+.heightexpand {
+    height: 100%;
+}
+
+canvas {
+    height: 100%;
+    width: 100%;
+}

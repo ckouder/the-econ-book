@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Concept Edit</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.bootcss.com/paper.js/0.11.5/paper-full.js"></script>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../static/main.css" />
+    <!-- <script src="../../static/d3.min.js"></script> -->
+</head>
+<body>
+    {% load name_modifier %}
+    <div class="container-fluid fullheight">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <h1>{{ name|rep|capfirst }}</h1>
+                <p>{{ description }}</p>
+            </div>
+        </div>
+        <div class="row heightexpand">
+            <canvas id="canvas" resize></canvas>
+        </div>
+    </div>
+    <input id="relationdata" type="hidden" value="{{relations}}">
+    <!-- <script src="../../static/paper-full.min.js"></script> -->
+    <script type="text/javascript" src="/static/main.js" canvas="canvas"></script>
+</body>
+</html>

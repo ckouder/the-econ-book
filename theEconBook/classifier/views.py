@@ -13,7 +13,7 @@ def specificConcept(request, name):
 def initialize(request):
     concept = Concept.objects.filter(statistics__selected=True)
     count = concept.count()
-    num = random.randint(0, count)
+    num = random.randint(1, count)
     concept = concept[num-1]
 
     return editpage(request, concept)

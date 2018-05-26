@@ -37,7 +37,7 @@ class RadarGraph {
             vertices = vertices.concat(verticesOfAShape);
             horizontalAxisGroup.addChild(horizontalAxis);
 
-            //console.log(verticesOfAShape);
+            console.log(verticesOfAShape);
             
             if (labelGroup.children.length !== 0) {
                 horizontalAxisGroup.addChild(labelGroup);

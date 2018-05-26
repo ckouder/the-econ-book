@@ -7,20 +7,21 @@ paper.setup(canvas);
 // draw graphs
 
 class RadarGraph {
-    constructor (data) {
+    constructor (data, isDynamic) {
         this.maximum = 5;
         this.labels = Object.keys(data);
-        this.draggable = false;
-        this.fullGraph = this.drawGraph(data, this.draggable);
+        this.outputData = {};
+        this.fullGraph = this.drawGraph(data, isDynamic);
     }
 
-    drawGraph(data, draggable) {
+    drawGraph(data, isDynamic) {
         var fullGraph = new paper.Group(),
             markerGroup = new paper.Group(),
             graphPath = new paper.Path({
                 strokeColor: 'red',
                 closed: true,
-                fillColor: 'red'
+                fillColor: 'red',
+                opacity: 0.5
             }),
             {vertices, axesGroup} = this.drawAxis();
 
@@ -38,9 +39,37 @@ class RadarGraph {
             graphPath.add(center);
         });
 
+        var dynamicGroup = isDynamic? this.drawDynamicGraph(vertices) : undefined;
+
         fullGraph.addChild(graphPath);
         fullGraph.addChild(markerGroup);
         fullGraph.addChild(axesGroup);
+        (dynamicGroup === undefined)? console.log("static graph") : fullGraph.addChild(dynamicGroup);
+
+        return fullGraph;
+    }
+
+    drawDynamicGraph(vertices) {
+        var dynamicGroup = new paper.Group(),
+            stateMachine = {
+                simple: ()=>{},
+                hover: ()=> {},
+                selected: ()=>{},
+            };
+        for (let vertix of vertices) {
+            let triggerCircle = new paper.Path.Circle({
+                radius: 10,
+                center: vertix,
+                fillColor: 'blue',
+                opacity: 0,
+                data: {
+                    state: 'simple',
+                },
+            });
+
+            dynamicGroup.addChild(triggerCircle);
+        }
+        return dynamicGroup;
     }
 
     // Generate axes according to the number of sides
@@ -67,7 +96,7 @@ class RadarGraph {
             vertices = vertices.concat(verticesOfAShape);
             horizontalAxisGroup.addChild(horizontalAxis);
 
-            console.log(verticesOfAShape);
+            // console.log(verticesOfAShape);
             
             if (labelGroup.children.length !== 0) {
                 horizontalAxisGroup.addChild(labelGroup);
@@ -115,14 +144,15 @@ class RadarGraph {
         } else {
             for (var j = 0; j <= numOfSides; j ++) {
                 var vertix = polygon.getPointAt(j * polygon.length / numOfSides);
-                
+
+                vertix.name = `${i}-${j}`;
                 vertices.push(vertix);
 
                 // draw label on each axis if reach the outer boundary
                 if (i === this.maximum) {
-                    //console.log(label);
+                    var label = this.drawLabel(this.labels[numOfSides -1-j], vertix, polygon);
+                    label.name = `${i}-${numOfSides -1 -j}`;
 
-                    var label = this.drawLabel(this.labels[j], vertix, polygon);
                     labelGroup.addChild(label);
                 }
             }
@@ -145,24 +175,24 @@ class RadarGraph {
     }
 }
 
-console.log(data.action);
-var actionGraph = new RadarGraph(data.action);
+// console.log(data.action);
+var actionGraph = new RadarGraph(data.action, true);
 var roleGraph = new RadarGraph({
-    'government': 2.3,
+    'government': 3.9,
     'central_bank': 4.5,
     'households': 0.3,
     'company': 3.4
-});
-console.log(actionGraph, roleGraph);
+}, true);
+// console.log(actionGraph, roleGraph);
 
 //Place graphs on the right position
 var activeGraph = paper.project.activeLayer.children;
-console.log(activeGraph);
+// console.log(activeGraph);
 
 for (var i = 0; i < activeGraph.length; i ++) {
     var maxGraphWidth = paper.view.size.width / activeGraph.length,
         marginLeft = maxGraphWidth / 2 + maxGraphWidth * i,
-        marginTop = paper.view.size.height / 2;
+        marginTop = paper.view.size.height / 2 - 50;
 
     activeGraph[i].position = new paper.Point(marginLeft, marginTop);
 }

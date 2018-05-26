@@ -8,13 +8,43 @@ paper.setup(canvas);
 
 class RadarGraph {
     constructor (data) {
-        this.data = data;
-        this.maximum = 4;
+        this.maximum = 5;
         this.labels = Object.keys(data);
-        this.axes = this.drawAxis(data);
+        this.draggable = false;
+        this.fullGraph = this.drawGraph(data, this.draggable);
     }
 
-    drawAxis(data) {
+    drawGraph(data, draggable) {
+        var fullGraph = new paper.Group(),
+            markerGroup = new paper.Group(),
+            graphPath = new paper.Path({
+                strokeColor: 'red',
+                closed: true,
+                fillColor: 'red'
+            }),
+            {vertices, axesGroup} = this.drawAxis();
+
+        this.labels.forEach((el, i) => {
+            var path = axesGroup.children['verticalAxisGroup'].children[i],
+                offset = data[el] / this.maximum * path.length,
+                center = path.getPointAt(offset),
+                circle = new paper.Path.Circle({
+                    radius: 1,
+                    center: center,
+                    fillColor: 'red'
+                });
+
+            markerGroup.addChild(circle);
+            graphPath.add(center);
+        });
+
+        fullGraph.addChild(graphPath);
+        fullGraph.addChild(markerGroup);
+        fullGraph.addChild(axesGroup);
+    }
+
+    // Generate axes according to the number of sides
+    drawAxis() {
         var numOfSides = this.labels.length,
             sideLength = paper.view.size.width / 20,
             strokeColor = 'black';
@@ -24,11 +54,11 @@ class RadarGraph {
             horizontalAxisGroup = new paper.Group(),
             vertices = [];
 
-        for (var i = 0; i <= this.maximum; i++) {
+        for (var i = 1; i <= this.maximum; i++) {
             var horizontalAxis = new paper.Path.RegularPolygon({
                     center: paper.view.center, 
                     sides: numOfSides, 
-                    radius: sideLength * i,
+                    radius: sideLength * (i-1),
                     strokeColor: strokeColor
                 });
             
@@ -66,10 +96,12 @@ class RadarGraph {
             verticalAxisGroup.addChild(verticalAxis);
         }
 
+        horizontalAxisGroup.name = "horizontalAxisGroup";
+        verticalAxisGroup.name = "verticalAxisGroup";
         axesGroup.addChild(horizontalAxisGroup);
         axesGroup.addChild(verticalAxisGroup);
 
-        return axesGroup;
+        return {vertices, axesGroup};
     }
 
     getVerticesAndLabels(polygon, i) {
@@ -82,14 +114,15 @@ class RadarGraph {
             vertices.push(polygon.getPointAt(0));
         } else {
             for (var j = 0; j <= numOfSides; j ++) {
-                var textPoistion = j * polygon.length / numOfSides;
+                var vertix = polygon.getPointAt(j * polygon.length / numOfSides);
                 
-                vertices.push(polygon.getPointAt(textPoistion));
+                vertices.push(vertix);
 
+                // draw label on each axis if reach the outer boundary
                 if (i === this.maximum) {
                     //console.log(label);
 
-                    var label = this.drawLabel(this.labels[j], textPoistion, polygon);
+                    var label = this.drawLabel(this.labels[j], vertix, polygon);
                     labelGroup.addChild(label);
                 }
             }
@@ -104,17 +137,22 @@ class RadarGraph {
         };
     }
 
-    drawLabel(text, position, horizontalAxis) {
+    drawLabel(label, vertix, horizontalAxis) {
         return new paper.PointText({
-            point: horizontalAxis.getPointAt(position),
-            content: text,
+            point: vertix,
+            content: label,
         });
     }
 }
 
 console.log(data.action);
 var actionGraph = new RadarGraph(data.action);
-var roleGraph = new RadarGraph(data.role);
+var roleGraph = new RadarGraph({
+    'government': 2.3,
+    'central_bank': 4.5,
+    'households': 0.3,
+    'company': 3.4
+});
 console.log(actionGraph, roleGraph);
 
 //Place graphs on the right position

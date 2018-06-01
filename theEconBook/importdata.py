@@ -6,7 +6,7 @@ from django.db.utils import IntegrityError
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "theEconBook.settings")
 django.setup()
 
-from classifier.models import Concept
+from classifier.models import Concept, Relations, Statistics
 
 source_path = '../data/microeconomics.json'
 
@@ -22,28 +22,24 @@ with open(source_path) as source:
             c = Concept.objects.get_or_create(\
                 concept_name = name,
                 concept_description = description,
-                relations = {
-                    'role': {
-                        'government': 0,
-                        'company': 0,
-                        'household': 0,
-                        'central_bank': 0
-                    },
-                    'action': {
-                        'distribution': 0,
-                        'production': 0,
-                        'consumption': 0
-                    }
-                },
-                statistics = {
-                    'n': 0,
-                    'sum_x_square': 0,
-                    'sum_x': 0,
-                    'var_x': 0,
-                    'selected': True
-                }
+                relations = Relations.objects.create(\
+                    role_government = 0,
+                    role_company = 0,
+                    role_household = 0,
+                    role_central_bank = 0,
+                    action_production = 0,
+                    action_distribution = 0,
+                    action_consumption = 0,
+                ),
+                statistics = Statistics.objects.create(\
+                    n = 0,
+                    sum_x_square = 0,
+                    sum_x = 0,
+                    var_x = 0,
+                    selected = True,
+                ),
             )
         except IntegrityError:
             c = None
-    
+
     print("Done!")

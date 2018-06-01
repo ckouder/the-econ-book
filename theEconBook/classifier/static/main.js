@@ -50,25 +50,93 @@ class RadarGraph {
     }
 
     drawDynamicGraph(vertices) {
+        const color = "blue";
+
         var dynamicGroup = new paper.Group(),
-            stateMachine = {
-                simple: ()=>{},
-                hover: ()=> {},
-                selected: ()=>{},
-            };
+            triggerGroup = new paper.Group(),
+            pathGroup = new paper.Group(),
+            selectedMachine = [],
+            numOfSides = this.labels.length;
+        
         for (let vertix of vertices) {
             let triggerCircle = new paper.Path.Circle({
                 radius: 10,
                 center: vertix,
-                fillColor: 'blue',
+                fillColor: color,
+                shadowColor: 'black',
                 opacity: 0,
-                data: {
-                    state: 'simple',
-                },
+                name: vertix.name
             });
 
-            dynamicGroup.addChild(triggerCircle);
+            triggerCircle.onMouseEnter = function(e) {
+                if (!selectedMachine.includes(this.name)) {
+                    this.opacity = 0.6;
+                }
+            }
+
+            triggerCircle.onMouseLeave = function(e) {
+                if (!selectedMachine.includes(this.name)) {
+                    this.opacity = 0;
+                }
+            }
+
+            triggerCircle.onMouseDown = function (e) {
+
+                this.opacity = 1;
+                this.radius = 5;
+
+                if (this.name === "0-0") {
+                    selectedMachine = [];
+                    selectedMachine.push(this.name);
+                    pathGroup.removeChildren();
+
+                } else if (!selectedMachine.includes(this.name)) {
+                    var deleteName = this.name.split('-')[1];
+                    
+                    for (let el of selectedMachine) {
+                        if (el[el.length - 1] === deleteName) {
+                            selectedMachine.splice(selectedMachine.indexOf(el), 1);
+                        }
+                    }
+
+                    selectedMachine.push(this.name);
+
+                    if (selectedMachine.length === numOfSides) {
+                        addPath();
+                    }
+
+                    if (selectedMachine.length === numOfSides + 1) {
+                        selectedMachine.splice(selectedMachine.indexOf("0-0"), 1);
+                        addPath();
+                    }
+                }
+                for (let el of triggerGroup.children) {
+                    if(!selectedMachine.includes(el.name)) {
+                        el.opacity = 0;
+                    }
+                }
+            }
+            triggerGroup.addChild(triggerCircle);
         }
+
+        function addPath() {
+            pathGroup.removeChildren();
+            var path = new paper.Path();
+            for (var i = 0; i < selectedMachine.length; i++) {
+                for (var j = i+1; j < selectedMachine.length; j++) {
+                    path.add(triggerGroup.children[selectedMachine[i]].position, triggerGroup.children[selectedMachine[j]].position);
+                    path.fillColor = color;
+                    path.closed = true;
+                    path.strokeColor = color;
+                }
+            }
+            pathGroup.addChild(path);
+            pathGroup.fillColor = color;
+        }
+        
+        dynamicGroup.addChild(triggerGroup);
+        dynamicGroup.addChild(pathGroup);
+        
         return dynamicGroup;
     }
 
@@ -140,7 +208,10 @@ class RadarGraph {
 
         //console.log(polygon);
         if (polygon.area === 0 && polygon.length < numOfSides) {
-            vertices.push(polygon.getPointAt(0));
+            var origin = polygon.getPointAt(0);
+            origin.name = "0-0";
+
+            vertices.push(origin);
         } else {
             for (var j = 0; j <= numOfSides; j ++) {
                 var vertix = polygon.getPointAt(j * polygon.length / numOfSides);
@@ -178,7 +249,7 @@ class RadarGraph {
 // console.log(data.action);
 var actionGraph = new RadarGraph(data.action, true);
 var roleGraph = new RadarGraph({
-    'government': 3.9,
+    'government': 3.5,
     'central_bank': 4.5,
     'households': 0.3,
     'company': 3.4
